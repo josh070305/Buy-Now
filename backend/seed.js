@@ -57,16 +57,16 @@ const seedIntoExistingConnection = async () => {
 
     // 2. Create Variants with 2+ variants per product (color, finish, and storage)
     const variantsData = [
-      // --- iPhone 17 Pro Variants (matches reference image: Desert Titanium first) ---
+      // --- iPhone 17 Pro Variants (matches reference image: Cosmic Orange first) ---
       {
         productId: createdProducts[0]._id,
-        label: '256GB Desert Titanium',
+        label: '256GB Cosmic Orange',
         storage: '256GB',
-        colorName: 'Desert Titanium',
-        colorHex: '#C5A586',
+        colorName: 'Cosmic Orange',
+        colorHex: '#D96B27',
         mrp: 134900,
         price: 127400,
-        images: ['/assets/iphone-desert.jpg', '/assets/iphone-desert.svg'],
+        images: ['/assets/iphone-orange.jpg', '/assets/iphone-desert.jpg'],
         stock: 15
       },
       {
@@ -93,13 +93,13 @@ const seedIntoExistingConnection = async () => {
       },
       {
         productId: createdProducts[0]._id,
-        label: '512GB Desert Titanium',
+        label: '512GB Cosmic Orange',
         storage: '512GB',
-        colorName: 'Desert Titanium',
-        colorHex: '#C5A586',
+        colorName: 'Cosmic Orange',
+        colorHex: '#D96B27',
         mrp: 154900,
         price: 147400,
-        images: ['/assets/iphone-desert.jpg', '/assets/iphone-desert.svg'],
+        images: ['/assets/iphone-orange.jpg', '/assets/iphone-desert.jpg'],
         stock: 6
       },
       {
