@@ -5,7 +5,8 @@ const orderSchema = Joi.object({
   variantId: Joi.string().hex().length(24).required(),
   emiPlanId: Joi.string().hex().length(24).required(),
   customerName: Joi.string().max(100).allow('', null),
-  customerEmail: Joi.string().email().allow('', null)
+  customerEmail: Joi.string().email().allow('', null),
+  paymentMethod: Joi.string().max(100).allow('', null)
 });
 
 module.exports = (req, res, next) => {
