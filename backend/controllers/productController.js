@@ -49,7 +49,22 @@ exports.getProductBySlug = async (req, res) => {
     }
 
     const isObjectId = mongoose.Types.ObjectId.isValid(identifier) && /^[0-9a-fA-F]{24}$/.test(identifier);
-    const query = isObjectId ? { _id: identifier } : { slug: identifier };
+    let query;
+    if (isObjectId) {
+      query = { _id: identifier };
+    } else {
+      const normalized = identifier.toLowerCase();
+      const coreSlug = normalized.replace(/^(apple-|samsung-|google-)/, '');
+      query = {
+        $or: [
+          { slug: normalized },
+          { slug: `apple-${normalized}` },
+          { slug: `samsung-${normalized}` },
+          { slug: `google-${normalized}` },
+          { slug: new RegExp(coreSlug.replace(/[-]/g, '.*'), 'i') }
+        ]
+      };
+    }
     const product = await Product.findOne(query);
 
     if (!product) {
