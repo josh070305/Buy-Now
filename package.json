@@ -1,8 +1,12 @@
 {
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.3"
-  },
-  "dependencies": {
-    "pdf-parse": "^1.1.1"
+  "name": "buy-now-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "1Fi SDE1 Assignment - Smartphones on Zero-Cost EMI backed by Mutual Funds",
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "seed": "cd backend && node seed.js",
+    "test": "cd backend && npm test && cd ../frontend && npm test -- --run"
   }
 }
