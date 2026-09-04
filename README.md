@@ -3,6 +3,11 @@
 > **1Fi SDE1 Internship Assignment Submission**  
 > A full-stack web application that allows users to purchase flagship smartphones with dynamic EMI plans backed by mutual funds, built faithfully to the **Snapmint / 1Fi reference design** and specifications.
 
+### 🌐 Live Deployment Links
+- **Frontend (Vercel)**: [https://buy-now-sand.vercel.app](https://buy-now-sand.vercel.app)
+- **Backend API (Render)**: [https://buy-now-hsyu.onrender.com/api/products](https://buy-now-hsyu.onrender.com/api/products)
+- **Order Tracking**: [https://buy-now-sand.vercel.app/orders](https://buy-now-sand.vercel.app/orders)
+
 ---
 
 ## 🌟 Overview & Domain Context
@@ -20,13 +25,14 @@ Instead of liquidating mutual fund investments or paying exorbitant credit card 
 
 | Assignment Requirement | Implementation Detail |
 | :--- | :--- |
-| **Reference Design Match** | Faithful reproduction of the Snapmint product page with "NEW" badge, high-res device stage, exact price strike-through, and stacked EMI cards. |
-| **Variant Switching** | Dual selector: Storage pills (`128GB`, `256GB`, `512GB`) and **"Available in X finishes"** circular color swatches with tooltips. |
+| **Reference Design Match** | Faithful reproduction of the reference card with lowercase "new" badge, studio device visual, exact price strike-through, and stacked EMI cards. |
+| **Variant Switching** | Dual selector: Storage pills (`256GB`, `512GB`) and **"Available in 3 finishes"** circular color swatches with interactive preview. |
 | **Interactive EMI Cards** | Tabular cards with tenure, monthly amount (`₹44,967 x 3 months`), interest badges (`0% interest`), and emerald cashback badges (`Additional cashback of ₹7,500`). |
-| **Dynamic Backend APIs** | No hardcoded data. Products, variants, and EMI plans are stored in MongoDB and served via RESTful endpoints. |
-| **Dual Identifier Resolution** | `/api/products/:identifier` dynamically resolves by both MongoDB `_id` (assignment spec) and SEO-friendly `slug`. |
-| **Unique Product URLs** | Unique routes for each device: `/products/apple-iphone-17-pro`, `/products/samsung-galaxy-s24-ultra`, `/products/google-pixel-9-pro`. |
-| **Checkout Flow (No Alerts)** | Fintech checkout modal breaking down principal, interest, cashback, and mutual fund portfolio status, creating confirmed orders via `POST /api/orders`. |
+| **Dynamic Backend APIs** | No hardcoded data. Products, variants, and EMI plans are stored in MongoDB Atlas and served via RESTful endpoints. |
+| **Flexible Slug Resolution** | Resolves both standard slugs and assignment sample URLs (e.g., `/products/iphone-17-pro` and `/products/apple-iphone-17-pro`, plus MongoDB `_id`). |
+| **Unique Product URLs** | Unique routes for each device: `/products/iphone-17-pro`, `/products/samsung-s24-ultra`, `/products/pixel-9-pro`. |
+| **Payment Gateways & Mandates**| Interactive mandate selector supporting **Razorpay UPI AutoPay** (e-Mandate), **1Fi MF Lien** (CAMS/KFintech), and **Stripe**. |
+| **Order Tracking & Tax Invoice**| Dedicated `/orders` page with live 4-step BlueDart delivery tracking, next auto-debit schedule, and printable official GST Tax Invoice. |
 
 ---
 
