@@ -15,9 +15,14 @@ const ProductCard = ({ product }) => {
       >
         {/* Top Badges */}
         <div className="flex items-center justify-between mb-4">
-          <span className="text-[10px] font-black uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full">
-            {product.brand || 'Flagship'}
-          </span>
+          <div className="flex items-center space-x-2">
+            <span className="text-[10px] font-extrabold tracking-widest text-rose-600 bg-rose-50 border border-rose-200/60 px-2 py-0.5 rounded-md uppercase">
+              NEW
+            </span>
+            <span className="text-[10px] font-black uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full">
+              {product.brand || 'Flagship'}
+            </span>
+          </div>
           <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 flex items-center space-x-1">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>MF Backed EMI</span>
