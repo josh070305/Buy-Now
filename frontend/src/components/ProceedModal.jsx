@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createOrder } from '../services/api';
+import InvoiceModal from './InvoiceModal';
 
 const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
   const [loading, setLoading] = useState(false);
   const [orderResult, setOrderResult] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
 
   if (!isOpen || !product || !variant || !plan) return null;
 
@@ -39,6 +41,9 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
 
       setOrderResult({
         ...data,
+        customerName: formData.customerName.trim(),
+        customerEmail: formData.customerEmail.trim(),
+        customerPhone: formData.customerPhone.trim() || '98765 43210',
         paymentMethod: data.paymentMethod || paymentMethod,
         transactionId: data.transactionId || fallbackTxnId,
       });
@@ -53,6 +58,7 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
   const handleReset = () => {
     setOrderResult(null);
     setErrorMsg(null);
+    setIsInvoiceOpen(false);
     onClose();
   };
 
@@ -92,7 +98,7 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
         <div className="p-6">
           {orderResult ? (
             /* SUCCESS CONFIRMATION VIEW */
-            <div className="text-center py-4 space-y-4">
+            <div className="text-center py-2 space-y-4">
               <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
                 <svg className="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
@@ -101,13 +107,44 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
 
               <div>
                 <h4 className="text-2xl font-extrabold text-slate-900 tracking-tight">Order Placed Successfully!</h4>
-                <p className="text-sm text-slate-500 mt-1">
-                  Your zero-downpayment EMI application is approved & backed by mutual funds.
+                <p className="text-xs text-slate-500 mt-1">
+                  Tax invoice & warranty certificate sent to <strong className="text-slate-800">{orderResult.customerEmail}</strong>
                 </p>
               </div>
 
+              {/* Delivery Timeline Tracker */}
+              <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 text-left space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">Estimated Delivery</span>
+                  <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    Tomorrow by 5:00 PM
+                  </span>
+                </div>
+                {/* 3-Step Progress Bar */}
+                <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1">
+                  <div className="flex flex-col items-center text-emerald-600 font-bold">
+                    <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] mb-1">✓</span>
+                    <span>Order Placed</span>
+                  </div>
+                  <div className="h-0.5 flex-1 bg-emerald-500 mx-2"></div>
+                  <div className="flex flex-col items-center text-emerald-600 font-bold">
+                    <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] mb-1">✓</span>
+                    <span>Dispatched (BlueDart)</span>
+                  </div>
+                  <div className="h-0.5 flex-1 bg-slate-200 mx-2"></div>
+                  <div className="flex flex-col items-center text-slate-400">
+                    <span className="w-4 h-4 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-[9px] mb-1">3</span>
+                    <span>Doorstep Delivery</span>
+                  </div>
+                </div>
+                <div className="text-[10px] text-slate-400 pt-1 flex justify-between">
+                  <span>Carrier: <strong>BlueDart Express</strong></span>
+                  <span className="font-mono">AWB #BD-849204</span>
+                </div>
+              </div>
+
               {/* Order Details Badge */}
-              <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 text-left space-y-2 text-sm">
+              <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 text-left space-y-1.5 text-xs">
                 <div className="flex justify-between">
                   <span className="text-slate-500">Order Reference:</span>
                   <span className="font-mono font-bold text-indigo-700">{orderResult.orderId || 'ORD-' + Math.random().toString(36).substring(2, 8).toUpperCase()}</span>
@@ -141,20 +178,26 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
                 </div>
               </div>
 
-              {/* 1Fi MF Portfolio Status */}
-              <div className="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-3.5 text-left flex items-start space-x-3 text-xs text-indigo-900">
-                <span className="text-base">📈</span>
-                <p>
-                  <strong>Investment Mandate Active:</strong> Your mutual fund portfolio remains active and earning market returns. First monthly installment will be automatically auto-debited on the 5th of next month via <strong>{orderResult.paymentMethod || paymentMethod}</strong>.
-                </p>
-              </div>
+              {/* Action Buttons: Invoice + Return */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setIsInvoiceOpen(true)}
+                  className="w-full py-2.5 px-3 rounded-xl border border-indigo-600 bg-indigo-50 text-indigo-700 font-bold text-xs hover:bg-indigo-100 transition-colors flex items-center justify-center space-x-1.5"
+                >
+                  <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span>View Tax Invoice</span>
+                </button>
 
-              <button
-                onClick={handleReset}
-                className="w-full mt-2 py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-all shadow-md shadow-indigo-600/20"
-              >
-                Done / Back to Store
-              </button>
+                <button
+                  onClick={handleReset}
+                  className="w-full py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition-all shadow-md shadow-indigo-600/20"
+                >
+                  Done / Store
+                </button>
+              </div>
             </div>
           ) : (
             /* CHECKOUT FORM VIEW */
@@ -245,9 +288,14 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Mobile Number (Linked to MF)
-                    </label>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-xs font-semibold text-slate-700">
+                        Mobile (Linked to MF) <span className="text-rose-500">*</span>
+                      </label>
+                      <span className="text-[9px] font-bold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100">
+                        CAMS / KFintech Verified
+                      </span>
+                    </div>
                     <input
                       type="tel"
                       placeholder="98765 43210"
@@ -255,6 +303,13 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
                       onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
                       className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
                     />
+                    <div className="mt-1.5 p-2 rounded-lg bg-emerald-50 border border-emerald-100 text-[10px] text-emerald-800 flex items-center justify-between">
+                      <div className="flex items-center space-x-1">
+                        <span className="text-emerald-600 font-bold">✓</span>
+                        <span>Portfolio Found: <strong>₹3,40,000</strong> active MF units</span>
+                      </div>
+                      <span className="text-[9px] text-emerald-600 font-bold uppercase">₹0 Upfront</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -348,6 +403,16 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
           )}
         </div>
       </div>
+
+      {/* Printable Tax Invoice Modal */}
+      <InvoiceModal
+        isOpen={isInvoiceOpen}
+        onClose={() => setIsInvoiceOpen(false)}
+        order={orderResult || {}}
+        product={product}
+        variant={variant}
+        plan={plan}
+      />
     </div>
   );
 };
