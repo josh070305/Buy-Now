@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bodyPixelPorcelain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF8F5"/>
+      <stop offset="50%" stop-color="#EFECE6"/>
+      <stop offset="100%" stop-color="#DFDCD6"/>
+    </linearGradient>
+    <linearGradient id="visorFrame" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2DFD9"/>
+      <stop offset="100%" stop-color="#B8B4AC"/>
+    </linearGradient>
+    <filter id="shadowP" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#64748b" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <ellipse cx="200" cy="460" rx="140" ry="18" fill="#000000" opacity="0.18" filter="blur(8px)"/>
+  <!-- Rounded phone body -->
+  <rect x="90" y="30" width="220" height="420" rx="42" fill="url(#bodyPixelPorcelain)" filter="url(#shadowP)" stroke="#E2DFD9" stroke-width="2.5"/>
+  <rect x="94" y="34" width="212" height="412" rx="38" fill="url(#bodyPixelPorcelain)" opacity="0.98"/>
+  <!-- Iconic Pixel Visor Island -->
+  <rect x="100" y="70" width="200" height="64" rx="32" fill="url(#visorFrame)" stroke="#CBC7BF" stroke-width="1.5"/>
+  <!-- Visor Glass Cutout -->
+  <rect x="110" y="76" width="130" height="52" rx="26" fill="#0F172A"/>
+  <!-- Main + Ultra Wide pill -->
+  <circle cx="138" cy="102" r="16" fill="#020617" stroke="#334155" stroke-width="2"/>
+  <circle cx="138" cy="102" r="10" fill="#000000"/>
+  <circle cx="136" cy="100" r="3" fill="#38BDF8" opacity="0.6"/>
+  <circle cx="180" cy="102" r="16" fill="#020617" stroke="#334155" stroke-width="2"/>
+  <circle cx="180" cy="102" r="10" fill="#000000"/>
+  <circle cx="178" cy="100" r="3" fill="#38BDF8" opacity="0.6"/>
+  <!-- Periscope telephoto -->
+  <circle cx="218" cy="102" r="11" fill="#020617" stroke="#334155" stroke-width="1.5"/>
+  <!-- Temperature Sensor & Flash -->
+  <circle cx="266" cy="92" r="6" fill="#FEF08A" stroke="#EAB308" stroke-width="1"/>
+  <circle cx="266" cy="112" r="4" fill="#64748B"/>
+  <!-- Google 'G' Logo -->
+  <path d="M 200 240 C 213 240 223 235 228 226 L 217 220 C 213 225 207 228 200 228 C 191 228 184 221 182 212 L 170 212 C 172 227 185 240 200 240 Z M 200 196 C 206 196 212 198 216 202 L 225 193 C 218 187 210 184 200 184 C 185 184 172 196 170 211 L 182 211 C 184 202 191 196 200 196 Z" fill="#94A3B8" opacity="0.75" transform="translate(0, 40)"/>
+</svg>

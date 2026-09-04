@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bodyS24Violet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5B536E"/>
+      <stop offset="50%" stop-color="#463F56"/>
+      <stop offset="100%" stop-color="#312B3E"/>
+    </linearGradient>
+    <radialGradient id="lensS24V" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="70%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <filter id="shadowSV" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#1E192B" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <ellipse cx="200" cy="460" rx="140" ry="18" fill="#000000" opacity="0.2" filter="blur(8px)"/>
+  <rect x="90" y="30" width="220" height="420" rx="14" fill="url(#bodyS24Violet)" filter="url(#shadowSV)" stroke="#D4B07B" stroke-width="2"/>
+  <rect x="94" y="34" width="212" height="412" rx="11" fill="url(#bodyS24Violet)" opacity="0.95"/>
+  <!-- Gold titanium accent rings on violet body -->
+  <circle cx="132" cy="74" r="18" fill="url(#lensS24V)" stroke="#D4B07B" stroke-width="3"/>
+  <circle cx="132" cy="74" r="11" fill="#020617" stroke="#334155" stroke-width="2"/>
+  <circle cx="130" cy="72" r="4" fill="#C084FC" opacity="0.6"/>
+  <circle cx="132" cy="120" r="18" fill="url(#lensS24V)" stroke="#D4B07B" stroke-width="3"/>
+  <circle cx="132" cy="120" r="11" fill="#020617" stroke="#334155" stroke-width="2"/>
+  <circle cx="130" cy="118" r="4" fill="#C084FC" opacity="0.6"/>
+  <circle cx="132" cy="166" r="18" fill="url(#lensS24V)" stroke="#D4B07B" stroke-width="3"/>
+  <circle cx="132" cy="166" r="11" fill="#020617" stroke="#334155" stroke-width="2"/>
+  <circle cx="130" cy="164" r="4" fill="#C084FC" opacity="0.6"/>
+  <circle cx="174" cy="74" r="12" fill="url(#lensS24V)" stroke="#D4B07B" stroke-width="2.5"/>
+  <circle cx="174" cy="74" r="7" fill="#020617"/>
+  <circle cx="174" cy="110" r="6" fill="#FEF08A" stroke="#EAB308" stroke-width="1"/>
+  <circle cx="174" cy="138" r="10" fill="url(#lensS24V)" stroke="#D4B07B" stroke-width="2"/>
+  <text x="200" y="380" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="14" fill="#D4B07B" letter-spacing="4" opacity="0.85">SAMSUNG</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bodyDesert" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8C7A5"/>
+      <stop offset="50%" stop-color="#CF9E76"/>
+      <stop offset="100%" stop-color="#A2714D"/>
+    </linearGradient>
+    <linearGradient id="plateauDesert" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2D7BF"/>
+      <stop offset="100%" stop-color="#BF8B62"/>
+    </linearGradient>
+    <radialGradient id="lensDesert" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="70%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <filter id="shadowD" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#8c532b" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <ellipse cx="200" cy="460" rx="140" ry="18" fill="#000000" opacity="0.18" filter="blur(8px)"/>
+  <rect x="90" y="30" width="220" height="420" rx="44" fill="url(#bodyDesert)" filter="url(#shadowD)" stroke="#F5E3D3" stroke-width="2.5"/>
+  <rect x="94" y="34" width="212" height="412" rx="40" fill="url(#bodyDesert)" opacity="0.95"/>
+  <rect x="106" y="50" width="96" height="96" rx="26" fill="url(#plateauDesert)" stroke="#EAD4C2" stroke-width="1.5" opacity="0.9"/>
+  <circle cx="132" cy="74" r="18" fill="url(#lensDesert)" stroke="#F8EADB" stroke-width="3"/>
+  <circle cx="132" cy="74" r="11" fill="#020617" stroke="#334155" stroke-width="2"/>
+  <circle cx="130" cy="72" r="4" fill="#38BDF8" opacity="0.6"/>
+  <circle cx="132" cy="122" r="18" fill="url(#lensDesert)" stroke="#F8EADB" stroke-width="3"/>
+  <circle cx="132" cy="122" r="11" fill="#020617" stroke="#334155" stroke-width="2"/>
+  <circle cx="130" cy="120" r="4" fill="#38BDF8" opacity="0.6"/>
+  <circle cx="176" cy="98" r="18" fill="url(#lensDesert)" stroke="#F8EADB" stroke-width="3"/>
+  <circle cx="176" cy="98" r="11" fill="#020617" stroke="#334155" stroke-width="2"/>
+  <circle cx="174" cy="96" r="4" fill="#38BDF8" opacity="0.6"/>
+  <circle cx="176" cy="66" r="7" fill="#FEF08A" stroke="#CA8A04" stroke-width="1"/>
+  <circle cx="176" cy="130" r="5" fill="#1E293B"/>
+  <path d="M 200 230 C 195 230 190 227 186 227 C 182 227 177 230 172 230 C 162 230 152 220 152 205 C 152 192 160 183 170 183 C 174 183 179 186 183 186 C 187 186 192 183 197 183 C 205 183 213 189 216 195 C 208 200 208 212 216 217 C 213 224 207 230 200 230 Z M 190 181 C 193 177 195 171 193 166 C 188 167 183 170 180 174 C 178 178 176 184 178 189 C 184 189 188 186 190 181 Z" fill="#7C4B27" opacity="0.4" transform="translate(15, 20) scale(0.85)"/>
+</svg>
