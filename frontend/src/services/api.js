@@ -1,11 +1,13 @@
 import axios from 'axios';
 
-const baseUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL)
+const rawBase = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL)
   ? import.meta.env.VITE_API_BASE_URL
   : '';
 
+const cleanBase = rawBase ? rawBase.replace(/\/+$/, '') : '';
+
 const api = axios.create({
-  baseURL: `${baseUrl}/api`,
+  baseURL: cleanBase ? `${cleanBase}/api` : '/api',
 });
 
 // Request interceptor for auth token
