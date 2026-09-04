@@ -65,11 +65,13 @@
 		console.log('Development mode: enabling permissive CORS for frontend');
 		app.use(cors());
 	} else {
-		const allowedOrigin = process.env.FRONTEND_ORIGIN || 'http://localhost:5173';
+		const allowedOrigin = process.env.FRONTEND_ORIGIN;
 		app.use(cors({
 			origin: (origin, callback) => {
 				if (!origin) return callback(null, true);
-				if (origin === allowedOrigin) return callback(null, true);
+				if (!allowedOrigin || allowedOrigin === '*' || origin === allowedOrigin || origin.endsWith('.vercel.app') || origin.includes('localhost')) {
+					return callback(null, true);
+				}
 				return callback(null, false);
 			},
 			credentials: true
