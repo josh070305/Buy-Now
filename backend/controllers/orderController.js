@@ -54,3 +54,19 @@ exports.createOrder = async (req, res) => {
     res.status(500).json({ success: false, error: { message: error.message } });
   }
 };
+
+exports.getOrderById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let order = null;
+    if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
+      order = await Order.findById(id).populate('productId').populate('variantId').populate('emiPlanId');
+    }
+    if (!order) {
+      return res.status(404).json({ success: false, error: { message: 'Order not found' } });
+    }
+    res.json({ success: true, data: order });
+  } catch (error) {
+    res.status(500).json({ success: false, error: { message: error.message } });
+  }
+};

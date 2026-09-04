@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { createOrder } from '../services/api';
 import InvoiceModal from './InvoiceModal';
 
 const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     customerName: '',
     customerEmail: '',
@@ -39,14 +41,35 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
       const txPrefix = paymentMethod.toLowerCase().includes('stripe') ? 'STP_TXN_' : 'RZP_MND_';
       const fallbackTxnId = txPrefix + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-      setOrderResult({
+      const enrichedOrder = {
         ...data,
+        orderId: data.orderId || data._id,
+        productId: product,
+        variantId: variant,
+        emiPlanId: plan,
+        product,
+        variant,
+        plan,
+        amount: plan.monthlyAmount,
+        tenureMonths: plan.tenureMonths,
         customerName: formData.customerName.trim(),
         customerEmail: formData.customerEmail.trim(),
         customerPhone: formData.customerPhone.trim() || '98765 43210',
         paymentMethod: data.paymentMethod || paymentMethod,
         transactionId: data.transactionId || fallbackTxnId,
-      });
+        createdAt: new Date().toISOString(),
+      };
+
+      setOrderResult(enrichedOrder);
+
+      // Save to localStorage for instant lookup on /orders
+      try {
+        const existing = JSON.parse(localStorage.getItem('1fi_recent_orders') || '[]');
+        const updated = [enrichedOrder, ...existing.filter(o => o.orderId !== enrichedOrder.orderId)].slice(0, 10);
+        localStorage.setItem('1fi_recent_orders', JSON.stringify(updated));
+      } catch (saveErr) {
+        console.warn('Could not save to localStorage:', saveErr);
+      }
     } catch (err) {
       console.error('Order creation error:', err);
       setErrorMsg(err?.response?.data?.error?.message || err.message || 'Failed to submit order');
@@ -178,25 +201,46 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
                 </div>
               </div>
 
-              {/* Action Buttons: Invoice + Return */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              {/* Action Buttons: Track Order + Invoice + Close */}
+              <div className="space-y-2 pt-1">
                 <button
                   type="button"
-                  onClick={() => setIsInvoiceOpen(true)}
-                  className="w-full py-2.5 px-3 rounded-xl border border-indigo-600 bg-indigo-50 text-indigo-700 font-bold text-xs hover:bg-indigo-100 transition-colors flex items-center justify-center space-x-1.5"
+                  onClick={() => {
+                    const id = orderResult.orderId;
+                    handleReset();
+                    navigate(`/orders?id=${id}`);
+                  }}
+                  className="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/25 transition-all flex items-center justify-center space-x-2"
                 >
-                  <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span>View Tax Invoice</span>
+                  <span>Track Live Delivery & EMI Schedule</span>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                  </svg>
                 </button>
 
-                <button
-                  onClick={handleReset}
-                  className="w-full py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition-all shadow-md shadow-indigo-600/20"
-                >
-                  Done / Store
-                </button>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsInvoiceOpen(true)}
+                    className="w-full py-2.5 px-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs transition-colors flex items-center justify-center space-x-1.5"
+                  >
+                    <svg className="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>View Tax Invoice</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="w-full py-2.5 px-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-bold text-xs transition-colors"
+                  >
+                    Done / Store
+                  </button>
+                </div>
               </div>
             </div>
           ) : (

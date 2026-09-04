@@ -5,5 +5,6 @@ const validateOrder = require('../validators/orderValidator');
 
 // validate payload before controller
 router.post('/', validateOrder, orderController.createOrder);
+router.get('/:id', orderController.getOrderById);
 
 module.exports = router;

@@ -38,5 +38,6 @@ api.interceptors.response.use(
 export const getProducts = () => api.get('/products');
 export const getProductBySlug = (slug) => api.get(`/products/${slug}`);
 export const createOrder = (order) => api.post('/orders', order);
+export const getOrderById = (id) => api.get(`/orders/${id}`);
 
 export default api;
