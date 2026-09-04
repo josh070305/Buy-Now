@@ -60,23 +60,14 @@
 	});
 
 	// Middleware
-	app.use(helmet());
-	if (process.env.NODE_ENV !== 'production') {
-		console.log('Development mode: enabling permissive CORS for frontend');
-		app.use(cors());
-	} else {
-		const allowedOrigin = process.env.FRONTEND_ORIGIN;
-		app.use(cors({
-			origin: (origin, callback) => {
-				if (!origin) return callback(null, true);
-				if (!allowedOrigin || allowedOrigin === '*' || origin === allowedOrigin || origin.endsWith('.vercel.app') || origin.includes('localhost')) {
-					return callback(null, true);
-				}
-				return callback(null, false);
-			},
-			credentials: true
-		}));
-	}
+	app.use(helmet({
+		crossOriginResourcePolicy: false,
+	}));
+	app.use(cors({
+		origin: '*',
+		methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+		allowedHeaders: ['Content-Type', 'Authorization']
+	}));
 	app.use(express.json());
 
 	// Root API Info
