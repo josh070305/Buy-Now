@@ -10,7 +10,9 @@ const orderSchema = new mongoose.Schema({
   cashback: { type: Number },
   customerName: { type: String },
   customerEmail: { type: String },
-  status: { type: String, default: 'PENDING' },
+  paymentMethod: { type: String, default: 'Razorpay UPI AutoPay' },
+  transactionId: { type: String },
+  status: { type: String, default: 'CONFIRMED' },
 }, {
   timestamps: true
 });

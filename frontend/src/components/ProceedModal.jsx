@@ -7,6 +7,7 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
     customerEmail: '',
     customerPhone: '',
   });
+  const [paymentMethod, setPaymentMethod] = useState('Razorpay UPI AutoPay');
   const [loading, setLoading] = useState(false);
   const [orderResult, setOrderResult] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -29,6 +30,7 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
         emiPlanId: plan._id,
         customerName: formData.customerName.trim(),
         customerEmail: formData.customerEmail.trim(),
+        paymentMethod: paymentMethod,
       };
 
       const res = await createOrder(payload);
@@ -109,7 +111,22 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
                   <span className="font-semibold text-slate-900">{product.name} ({variant.label})</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Repayment Plan:</span>
+                  <span className="text-slate-500">Payment / Mandate:</span>
+                  <span className="font-bold text-emerald-700 flex items-center space-x-1">
+                    <span>✓</span>
+                    <span>{orderResult.paymentMethod || paymentMethod}</span>
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Mandate / Txn ID:</span>
+                  <span className="font-mono text-xs text-slate-700">{orderResult.transactionId || 'RZP_MND_' + Math.random().toString(36).substring(2, 8).toUpperCase()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Amount Paid Today:</span>
+                  <span className="font-bold text-emerald-600">₹0.00 (Zero Down Payment)</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Repayment Schedule:</span>
                   <span className="font-semibold text-slate-900">₹{monthlyAmount.toLocaleString('en-IN')}/mo x {tenure} months</span>
                 </div>
                 <div className="flex justify-between text-emerald-700 font-semibold pt-1 border-t border-slate-200">
@@ -122,7 +139,7 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
               <div className="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-3.5 text-left flex items-start space-x-3 text-xs text-indigo-900">
                 <span className="text-base">📈</span>
                 <p>
-                  <strong>Investment Update:</strong> Your mutual fund portfolio remains 100% active and continues earning market returns. First monthly EMI will be scheduled on the 5th of next month.
+                  <strong>Investment Mandate Active:</strong> Your mutual fund portfolio remains active and earning market returns. First monthly installment will be automatically auto-debited on the 5th of next month via <strong>{orderResult.paymentMethod || paymentMethod}</strong>.
                 </p>
               </div>
 
@@ -236,6 +253,65 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
                 </div>
               </div>
 
+              {/* Payment & Mandate Method Selection */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  Select EMI Mandate / Payment Gateway
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <div
+                    onClick={() => setPaymentMethod('Razorpay UPI AutoPay')}
+                    className={`p-2.5 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+                      paymentMethod === 'Razorpay UPI AutoPay'
+                        ? 'border-indigo-600 bg-indigo-50/60 ring-1 ring-indigo-600'
+                        : 'border-slate-200 bg-white hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold text-slate-900">Razorpay UPI</span>
+                      <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                        Popular
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-slate-500 mt-1">GPay, PhonePe e-Mandate</p>
+                  </div>
+
+                  <div
+                    onClick={() => setPaymentMethod('1Fi Mutual Fund Lien')}
+                    className={`p-2.5 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+                      paymentMethod === '1Fi Mutual Fund Lien'
+                        ? 'border-indigo-600 bg-indigo-50/60 ring-1 ring-indigo-600'
+                        : 'border-slate-200 bg-white hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold text-slate-900">1Fi MF Lien</span>
+                      <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-800">
+                        ₹0 Cash
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-slate-500 mt-1">CAMS / KFintech OTP</p>
+                  </div>
+
+                  <div
+                    onClick={() => setPaymentMethod('Stripe Cards / NetBanking')}
+                    className={`p-2.5 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+                      paymentMethod === 'Stripe Cards / NetBanking'
+                        ? 'border-indigo-600 bg-indigo-50/60 ring-1 ring-indigo-600'
+                        : 'border-slate-200 bg-white hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold text-slate-900">Stripe / Cards</span>
+                      <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-slate-100 text-slate-700">
+                        Global
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-slate-500 mt-1">Credit/Debit Card EMI</p>
+                  </div>
+                </div>
+              </div>
+
               {errorMsg && (
                 <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 font-medium">
                   {errorMsg}
@@ -255,10 +331,10 @@ const ProceedModal = ({ isOpen, onClose, product, variant, plan }) => {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                       </svg>
-                      <span>Processing Order...</span>
+                      <span>Connecting {paymentMethod}...</span>
                     </>
                   ) : (
-                    <span>Confirm Order & Pledge Mutual Funds</span>
+                    <span>Authorize & Confirm with {paymentMethod.split(' ')[0]}</span>
                   )}
                 </button>
               </div>

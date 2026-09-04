@@ -5,7 +5,7 @@ const EMIPlan = require('../models/EMIPlan');
 
 exports.createOrder = async (req, res) => {
   try {
-    const { productId, variantId, emiPlanId, customerName, customerEmail } = req.body;
+    const { productId, variantId, emiPlanId, customerName, customerEmail, paymentMethod } = req.body;
 
     if (!productId || !variantId || !emiPlanId) {
       return res.status(400).json({ success: false, error: { message: 'Missing required fields' } });
@@ -19,6 +19,9 @@ exports.createOrder = async (req, res) => {
       return res.status(404).json({ success: false, error: { message: 'Invalid product/variant/plan' } });
     }
 
+    const txPrefix = (paymentMethod || '').toLowerCase().includes('stripe') ? 'STP_TXN_' : 'RZP_MND_';
+    const transactionId = txPrefix + Math.random().toString(36).substring(2, 10).toUpperCase();
+
     const order = new Order({
       productId: product._id,
       variantId: variant._id,
@@ -29,12 +32,24 @@ exports.createOrder = async (req, res) => {
       cashback: plan.cashback,
       customerName,
       customerEmail,
+      paymentMethod: paymentMethod || 'Razorpay UPI AutoPay',
+      transactionId,
       status: 'CONFIRMED'
     });
 
     const saved = await order.save();
 
-    res.status(201).json({ success: true, data: { orderId: saved._id, status: saved.status } });
+    res.status(201).json({
+      success: true,
+      data: {
+        orderId: saved._id,
+        status: saved.status,
+        paymentMethod: saved.paymentMethod,
+        transactionId: saved.transactionId,
+        amount: saved.amount,
+        tenureMonths: saved.tenureMonths
+      }
+    });
   } catch (error) {
     res.status(500).json({ success: false, error: { message: error.message } });
   }
