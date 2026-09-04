@@ -79,6 +79,20 @@
 	}
 	app.use(express.json());
 
+	// Root API Info
+	app.get('/', (req, res) => {
+		res.json({
+			success: true,
+			message: '1Fi Buy-Now Backend API is operational',
+			endpoints: {
+				health: '/api/health',
+				products: '/api/products',
+				productsBySlug: '/api/products/:slug',
+				orders: '/api/orders'
+			}
+		});
+	});
+
 	// Routes
 	app.use('/api/health', healthRoutes);
 	app.use('/api/products', productRoutes);
