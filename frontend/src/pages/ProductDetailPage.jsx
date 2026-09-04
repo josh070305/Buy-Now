@@ -115,9 +115,18 @@ const ProductDetailPage = () => {
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                   {product.name}
                 </h1>
-                <p className="text-sm font-semibold text-slate-500 mt-0.5">
-                  {selectedVariant?.storage || selectedVariant?.label}
-                </p>
+                <div className="flex items-center space-x-2 mt-1">
+                  <p className="text-sm font-semibold text-slate-500">
+                    {selectedVariant?.storage || selectedVariant?.label}
+                  </p>
+                  <span className="text-slate-300">•</span>
+                  <div className="inline-flex items-center px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-amber-700 text-[11px] font-bold">
+                    <span>★ 4.8</span>
+                  </div>
+                  <span className="text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+                    70+ sold on EMI
+                  </span>
+                </div>
               </div>
 
               {/* High-res Stage & Gallery */}
@@ -145,9 +154,34 @@ const ProductDetailPage = () => {
               </div>
 
               {/* Description preview */}
-              <div className="mt-6 p-4 rounded-2xl bg-slate-50/70 border border-slate-100 text-xs text-slate-600 leading-relaxed">
+              <div className="mt-5 p-4 rounded-2xl bg-slate-50/70 border border-slate-100 text-xs text-slate-600 leading-relaxed">
                 <span className="font-bold text-slate-800 block mb-1">Key Highlights:</span>
                 {product.description}
+              </div>
+
+              {/* Trust & Guarantees - Snapmint signature assurance */}
+              <div className="mt-3 p-3.5 rounded-2xl bg-indigo-50/40 border border-indigo-100/60">
+                <div className="text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-2">
+                  Shop with Confidence
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-600 font-medium">
+                  <div className="flex items-center space-x-1.5">
+                    <span className="text-emerald-500 font-bold">✓</span>
+                    <span>100% Genuine</span>
+                  </div>
+                  <div className="flex items-center space-x-1.5">
+                    <span className="text-emerald-500 font-bold">✓</span>
+                    <span>2 Days Replacement</span>
+                  </div>
+                  <div className="flex items-center space-x-1.5">
+                    <span className="text-emerald-500 font-bold">✓</span>
+                    <span>Free Delivery</span>
+                  </div>
+                  <div className="flex items-center space-x-1.5">
+                    <span className="text-emerald-500 font-bold">✓</span>
+                    <span>1Fi Mutual Fund Backed</span>
+                  </div>
+                </div>
               </div>
             </div>
 
