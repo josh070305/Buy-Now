@@ -109,10 +109,10 @@ const ProductDetailPage = () => {
             <div className="lg:col-span-5 flex flex-col justify-start">
               {/* Product Header info (above gallery, exact match to reference screenshot) */}
               <div className="mb-4">
-                <span className="text-xs font-bold tracking-widest text-rose-500 uppercase block">
-                  NEW
+                <span className="text-xs font-semibold text-rose-500 lowercase block mb-0.5">
+                  new
                 </span>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-0.5">
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                   {product.name}
                 </h1>
                 <p className="text-sm font-semibold text-slate-500 mt-0.5">
@@ -128,7 +128,7 @@ const ProductDetailPage = () => {
               />
 
               {/* Color Finish Swatches - Exact match to reference "Available in 3 finishes" */}
-              <div className="mt-6 pt-6 border-t border-slate-100">
+              <div className="mt-4 pt-4 border-t border-slate-100">
                 <VariantSelector
                   variants={product.variants || []}
                   selectedVariantId={selectedVariantId}
@@ -154,32 +154,31 @@ const ProductDetailPage = () => {
             {/* RIGHT COLUMN: Pricing, MF Banner, and Stack of EMI Plan Cards */}
             <div className="lg:col-span-7 flex flex-col justify-between">
               <div>
-                {/* 1. Price Header */}
+                {/* 1. Price Header - Exact layout as reference screenshot */}
                 <div className="pb-5 border-b border-slate-100">
-                  <div className="flex items-baseline space-x-3">
-                    <span className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                  <div>
+                    <div className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
                       ₹{selectedVariant?.price?.toLocaleString?.('en-IN')}
-                    </span>
+                    </div>
                     {selectedVariant?.mrp && selectedVariant.mrp > selectedVariant.price && (
-                      <span className="text-base text-slate-400 line-through font-medium">
-                        ₹{selectedVariant.mrp.toLocaleString('en-IN')}
-                      </span>
-                    )}
-                    {savingsAmount > 0 && (
-                      <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                        Save ₹{savingsAmount.toLocaleString('en-IN')} ({discountPercent}% OFF)
-                      </span>
+                      <div className="flex items-center space-x-2 mt-1">
+                        <span className="text-sm sm:text-base text-slate-400 line-through font-medium">
+                          ₹{selectedVariant.mrp.toLocaleString('en-IN')}
+                        </span>
+                        {savingsAmount > 0 && (
+                          <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                            Save ₹{savingsAmount.toLocaleString('en-IN')} ({discountPercent}% OFF)
+                          </span>
+                        )}
+                      </div>
                     )}
                   </div>
 
                   {/* Subtitle exact match to assignment PDF */}
-                  <div className="mt-3 flex items-center justify-between">
-                    <div className="flex items-center space-x-1.5">
-                      <span className="w-2 h-2 rounded-full bg-indigo-600"></span>
-                      <h2 className="text-sm sm:text-base font-bold text-slate-800 tracking-tight">
-                        EMI plans backed by mutual funds
-                      </h2>
-                    </div>
+                  <div className="mt-4 flex items-center justify-between">
+                    <h2 className="text-sm sm:text-base font-bold text-slate-800 tracking-tight">
+                      EMI plans backed by mutual funds
+                    </h2>
 
                     <span className="text-xs text-indigo-600 font-semibold bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100">
                       ₹0 Down Payment

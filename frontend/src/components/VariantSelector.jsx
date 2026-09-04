@@ -87,19 +87,14 @@ const VariantSelector = ({ variants = [], selectedVariantId, onChange }) => {
         </div>
       )}
 
-      {/* 2. Color Finish Swatches - Faithful to Reference "Available in X finishes" */}
+      {/* 2. Color Finish Swatches - Exact match to Reference "Available in X finishes" */}
       {uniqueFinishes.length > 1 && (
-        <div className="pt-1">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              Finish: <span className="font-semibold text-slate-900 capitalize">{currentVariant.colorName || currentVariant.label}</span>
-            </span>
-            <span className="text-xs text-slate-400 font-medium">
-              Available in {uniqueFinishes.length} finishes
-            </span>
-          </div>
+        <div className="pt-2 flex flex-col items-center text-center">
+          <span className="text-xs text-slate-500 font-medium mb-2.5">
+            Available in {uniqueFinishes.length} finishes
+          </span>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center justify-center space-x-2.5">
             {uniqueFinishes.map((finish) => {
               const isSelected = currentVariant.colorName === finish.colorName;
               return (
@@ -108,10 +103,10 @@ const VariantSelector = ({ variants = [], selectedVariantId, onChange }) => {
                   type="button"
                   title={finish.colorName}
                   onClick={() => handleFinishChange(finish)}
-                  className={`group relative flex items-center justify-center w-8 h-8 rounded-full transition-all focus:outline-none ${
+                  className={`group relative flex items-center justify-center w-5 h-5 rounded-full transition-all focus:outline-none ${
                     isSelected
                       ? 'ring-2 ring-indigo-600 ring-offset-2 scale-110'
-                      : 'hover:scale-105 opacity-85 hover:opacity-100 ring-1 ring-slate-200'
+                      : 'hover:scale-105 opacity-85 hover:opacity-100 ring-1 ring-slate-300'
                   }`}
                 >
                   <span
