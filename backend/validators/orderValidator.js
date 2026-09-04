@@ -7,7 +7,7 @@ const orderSchema = Joi.object({
   customerName: Joi.string().max(100).allow('', null),
   customerEmail: Joi.string().email().allow('', null),
   paymentMethod: Joi.string().max(100).allow('', null)
-});
+}).unknown(true);
 
 module.exports = (req, res, next) => {
   const { error } = orderSchema.validate(req.body);
